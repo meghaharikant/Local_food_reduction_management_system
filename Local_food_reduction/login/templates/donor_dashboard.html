@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Dashboard</title>
+</head>
+<body>
+    <h2>Your Food Donations</h2>
+    {% if donations %}
+        <ul>
+        {% for donation in donations %}
+            <li>{{ donation.food_name }} - Quantity: {{ donation.quantity }} - Expiry: {{ donation.expiry_date }} - Location: {{ donation.location }} - Status: {{ donation.status }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>You have not donated any food yet.</p>
+    {% endif %}
+    <a href="{{ url_for('add_food') }}">Add Food Donation</a><br>
+    <a href="{{ url_for('user_dashboard') }}">Back to Dashboard</a>
+</body>
+</html>

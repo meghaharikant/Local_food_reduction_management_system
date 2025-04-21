@@ -1,0 +1,55 @@
+<nav class="navbar">
+    <ul class="nav-list">
+        <li class="nav-item"><a href="{{ url_for('home') }}">Home</a></li>
+        <li class="nav-item"><a href="{{ url_for('about') }}">About</a></li>
+        <li class="nav-item"><a href="{{ url_for('contact') }}">Contact</a></li>
+        <li class="nav-item"><a href="{{ url_for('add_food') }}">Donate Food</a></li>
+        <li class="nav-item"><a href="{{ url_for('food_list') }}">Request Food</a></li>
+        <li class="nav-item"><a href="{{ url_for('requests') }}">My Requests</a></li>
+        <li class="nav-item"><a href="{{ url_for('logout') }}">Logout</a></li>
+    </ul>
+</nav>
+
+<style>
+.navbar {
+    background: linear-gradient(90deg, #fbc02d, #66bb6a); /* Bright yellow to green gradient */
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.nav-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-item {
+    padding: 14px 25px;
+}
+
+.nav-item a {
+    color: white; /* White text for visibility */
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.nav-item a:hover {
+    color: #dcedc8; /* Light green on hover */
+    border-bottom: 2px solid #dcedc8;
+}
+
+@media (max-width: 600px) {
+    .nav-list {
+        flex-direction: column;
+        align-items: center;
+    }
+    .nav-item {
+        padding: 10px 0;
+    }
+}
+</style>

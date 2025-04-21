@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      background-image: url("{{ url_for('static', filename='login/static/images/Welcome.jpg') }}");
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      color: white;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.6);
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
+
+    .nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .hero-content {
+      padding-top: 80px;
+    }
+
+    .buttons {
+      margin-top: 20px;
+    }
+
+    .buttons a {
+      background-color: #28a745;
+      color: white;
+      padding: 10px 20px;
+      margin: 0 10px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .gif-section {
+      height: 100vh;
+      background-color: #f9f9f9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .gif-section h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .gif-section img {
+      max-width: 500px;
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <div class="nav">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+      <a href="/login">Login</a>
+      <a href="/register">Register</a>
+    </div>
+
+    <div class="hero-content">
+      <h1>Welcome, Guest!</h1>
+      <p>Welcome to the Food Waste Management Index Page.</p>
+      <div class="buttons">
+        <a href="/view_food">View Available Food</a>
+        <a href="/request_food">Request Food</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- GIF Section -->
+  <div class="gif-section">
+    <h2>How Food Donation Works</h2>
+    <img src="{{ url_for('static', filename='images/responsive.gif') }}" alt="Food Waste GIF">
+  </div>
+
+</body>
+</html>

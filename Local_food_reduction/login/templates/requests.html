@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Food Requests</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eef;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        a.button {
+            background-color: #28a745;
+            color: white;
+            padding: 6px 12px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        a.button:hover {
+            background-color: #218838;
+        }
+        .status-pending {
+            color: orange;
+            font-weight: bold;
+        }
+        .status-approved {
+            color: blue;
+            font-weight: bold;
+        }
+        .status-rejected {
+            color: red;
+            font-weight: bold;
+        }
+        .status-pickedup {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h2>My Food Requests</h2>
+
+    {% if notifications and notifications|length > 0 %}
+    <div style="background-color: #d9edf7; border: 1px solid #bce8f1; padding: 10px; margin-bottom: 20px; border-radius: 5px;">
+        <h3>Notifications</h3>
+        <ul>
+            {% for note in notifications %}
+            <li>{{ note.message }} <small>({{ note.created_at }})</small></li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Food Name</th>
+                <th>Location</th>
+                <th>Request Details</th>
+                <th>Status</th>
+                <th>Pickup Code</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for req in requests %}
+            <tr>
+                <td>{{ req.food_name }}</td>
+                <td>{{ req.location }}</td>
+                <td>{{ req.request_details }}</td>
+                <td class="status-{{ req.status|lower|replace(' ', '') }}">{{ req.status }}</td>
+                <td>{{ req.pickup_code if req.status == 'Approved' else '' }}</td>
+                <td>
+                    {% if req.status == 'Approved' %}
+                    <a href="{{ url_for('confirm_pickup', req_id=req.id) }}" class="button">Confirm Pickup</a>
+                    {% elif req.status == 'Picked Up' %}
+                    <a href="{{ url_for('submit_feedback', req_id=req.id) }}" class="button">Give Feedback</a>
+                    {% else %}
+                    -
+                    {% endif %}
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6">No requests found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('food_list') }}">Back to Food List</a>
+</body>
+</html>

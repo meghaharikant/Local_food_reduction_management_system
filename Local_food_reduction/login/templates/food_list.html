@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Available Food</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .food-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .food-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            width: 280px;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .food-card h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .food-info {
+            margin: 10px 0;
+            color: #555;
+        }
+        .request-button {
+            margin-top: auto;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+        .request-button:hover {
+            background-color: #218838;
+        }
+        .nav-buttons {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .nav-buttons a {
+            margin: 0 10px;
+            padding: 10px 25px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        .nav-buttons a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h2>Available Food Donations</h2>
+    <div class="nav-buttons">
+        <a href="{{ url_for('home') }}">Back to Home</a>
+        <a href="{{ url_for('add_food') }}">Add New Food</a>
+    </div>
+    <div class="food-container">
+        {% for food in foods %}
+        <div class="food-card">
+            <h3>{{ food.food_name }}</h3>
+            <div class="food-info"><strong>Quantity:</strong> {{ food.quantity }}</div>
+            <div class="food-info"><strong>Expiry Date:</strong> {{ food.expiry_date }}</div>
+            <div class="food-info"><strong>Location:</strong> {{ food.location }}</div>
+            <div class="food-info"><strong>Status:</strong> {{ food.status }}</div>
+            <a href="{{ url_for('request_food', food_id=food.id) }}" class="request-button">Request</a>
+        </div>
+        {% else %}
+        <p style="text-align:center;">No food donations available at the moment.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

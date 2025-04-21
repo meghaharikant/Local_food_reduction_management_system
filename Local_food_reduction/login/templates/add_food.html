@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add New Food Item</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eef;
+            padding: 20px;
+        }
+
+        .form-container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        select,
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 10px;
+            text-align: center;
+            width: 100%;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Add New Food</h2>
+        <form action="{{ url_for('add_food') }}" method="POST">
+            <label for="food_name">Food Name:</label>
+            <input type="text" name="food_name" required>
+
+            <label for="quantity">Quantity:</label>
+            <input type="number" name="quantity" required>
+
+            <label for="expiry_date">Expiry Date:</label>
+            <input type="date" name="expiry_date" required>
+
+            <label for="location">Location (Full Address with Pincode):</label>
+            <input type="text" name="location" required>
+
+            <label for="status">Status:</label>
+            <select name="status" required>
+                <option value="Available">Available</option>
+                <option value="Donated">Donated</option>
+                <option value="Expired">Expired</option>
+            </select>
+
+            <input type="submit" value="Add Food">
+        </form>
+
+        <a href="{{ url_for('food_list') }}">← Back to Food List</a>
+    </div>
+</body>
+</html>

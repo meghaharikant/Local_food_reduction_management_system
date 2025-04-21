@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #e0f2f1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+        h1 {
+            text-align: center;
+            color: #00796b;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #004d40;
+        }
+        input[type="email"],
+        input[type="password"] {
+            padding: 12px 15px 12px 40px;
+            margin-bottom: 20px;
+            border: 1px solid #b2dfdb;
+            border-radius: 8px;
+            font-size: 16px;
+            background: #e0f2f1 url('https://cdn-icons-png.flaticon.com/512/561/561127.png') no-repeat 10px center;
+            background-size: 20px 20px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        input[type="password"] {
+            background-image: url('https://cdn-icons-png.flaticon.com/512/3064/3064155.png');
+        }
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            border-color: #00796b;
+        }
+        button {
+            padding: 14px;
+            background-color: #00796b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #004d40;
+        }
+        .links {
+            margin-top: 15px;
+            text-align: center;
+        }
+        .links a {
+            color: #00796b;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .links a:hover {
+            text-decoration: underline;
+        }
+        .msg {
+            color: red;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <h1>Login</h1>
+        <form action="{{ url_for('login') }}" method="post">
+            <div class="msg">{{ msg }}</div>
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="Enter your email" required />
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" placeholder="Enter your password" required />
+            <button type="submit">Sign In</button>
+        </form>
+        <div class="links">
+            <a href="{{ url_for('forgot_password') }}">Forgot Password?</a>
+        </div>
+        <div class="links" style="margin-top: 10px;">
+            Don't have an account? <a href="{{ url_for('register') }}">Sign Up here</a>
+        </div>
+    </div>
+</body>
+</html>
