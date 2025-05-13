@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Dashboard - Waste Food Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eef2f7;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #28a745;
+            color: white;
+            padding: 15px 30px;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+            font-weight: normal;
+        }
+        nav {
+            background-color: #1e7e34;
+            padding: 10px 30px;
+            display: flex;
+            justify-content: flex-end;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        main {
+            padding: 20px 30px;
+        }
+        h2 {
+            color: #333;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #28a745;
+            padding-bottom: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+            font-size: 14px;
+        }
+        th {
+            background-color: #28a745;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .actions a {
+            color: #28a745;
+            text-decoration: none;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .actions a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            text-align: center;
+            padding: 15px 0;
+            margin-top: 40px;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>User Dashboard</h1>
+    </header>
+    <nav>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+    <main>
+        <h2>Available Food Donations</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Food ID</th>
+                    <th>Food Name</th>
+                    <th>Quantity</th>
+                    <th>Expiry Date</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Donor</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for food in foods %}
+                <tr>
+                    <td>{{ food.id }}</td>
+                    <td>{{ food.food_name }}</td>
+                    <td>{{ food.quantity }}</td>
+                    <td>{{ food.expiry_date }}</td>
+                    <td>{{ food.location }}</td>
+                    <td>{{ food.status }}</td>
+                    <td>{{ food.donor_username }}</td>
+                    <td class="actions">
+                        {% if food.status == 'Available' %}
+                        <a href="{{ url_for('request_food', food_id=food.id) }}">Request</a>
+                        {% else %}
+                        Not available
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Your Food Requests</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Request ID</th>
+                    <th>Request Details</th>
+                    <th>Status</th>
+                    <th>Pickup Code</th>
+                    <th>Address</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for req in requests %}
+                <tr>
+                    <td>{{ req.id }}</td>
+                    <td>{{ req.request_details }}</td>
+                    <td>{{ req.status }}</td>
+                    <td>{{ req.pickup_code or 'N/A' }}</td>
+                    <td>{{ req.address or 'N/A' }}</td>
+                    <td>{{ req.created_at }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+    <footer>
+        &copy; {{ current_year }} Waste Food Management
+    </footer>
+</body>
+</html>

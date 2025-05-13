@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Food Waste Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="navbar scroll-reveal">
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+        {% if session.get('username') %}
+            <a href="{{ url_for('profile') }}">Profile</a>
+            <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+        {% else %}
+            <a href="{{ url_for('login') }}" class="login-btn">Login</a>
+            <a href="{{ url_for('register') }}" class="register-btn">Register</a>
+        {% endif %}
+    </div>
+
+    <div class="container scroll-reveal">
+        <div class="content-box">
+            {% if session.get('username') %}
+                <h1 class="typewriter">Welcome, {{ session.get('username') }}!</h1>
+            {% else %}
+                <h1 class="typewriter">Welcome, Guest!</h1>
+            {% endif %}
+            <p class="tagline">Welcome to the Food Waste Management Index Page.</p>
+
+            <div class="buttons">
+                {% if session.get('username') %}
+                    <a href="{{ url_for('add_food') }}" class="btn">Donate Food</a>
+                    <a href="{{ url_for('food_list') }}" class="btn">Request Food</a>
+                    <a href="{{ url_for('food_list') }}" class="btn">View Available Food</a>
+                {% else %}
+                    <a href="{{ url_for('food_list') }}" class="btn">View Available Food</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="gif-section scroll-reveal">
+        <img src="{{ url_for('static', filename='images/responsive.gif') }}" alt="Donation Process GIF"
+             style="display: block; margin: 20px auto; max-width: 90%; height: auto;">
+    </div>
+
+    <div class="footer-space" style="height: 100px;"></div>
+
+    <button onclick="scrollToTop()" id="backToTopBtn" title="Back to Top">&#8679;</button>
+
+    <!-- Chatbot UI -->
+    <button id="chatbot-toggle">💬</button>
+
+    <div id="chatbot-box">
+        <div id="chatbot-header">EcoWaste AI</div>
+        <div id="chatbot-messages">
+            <div class="chatbot-bot">EcoWaste AI: Ask me about our Local Food Reduction platform!</div>
+        </div>
+        <div id="chatbot-input">
+            <input type="text" id="user-input" placeholder="Type a message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.onscroll = function () {
+            const btn = document.getElementById("backToTopBtn");
+            btn.style.display = (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100)
+                ? "block" : "none";
+
+            document.querySelectorAll('.scroll-reveal').forEach(el => {
+                const rect = el.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                if (rect.top <= windowHeight - 100) {
+                    el.classList.add('revealed');
+                }
+            });
+        };
+
+        document.getElementById("chatbot-toggle").onclick = function () {
+            const box = document.getElementById("chatbot-box");
+            box.style.display = box.style.display === "flex" ? "none" : "flex";
+            box.style.flexDirection = "column";
+        };
+
+        function sendMessage() {
+            const input = document.getElementById("user-input");
+            const msg = input.value.trim();
+            const messages = document.getElementById("chatbot-messages");
+
+            if (!msg) return;
+
+            const userMsg = document.createElement("div");
+            userMsg.className = "chatbot-user";
+            userMsg.textContent = `You: ${msg}`;
+            messages.appendChild(userMsg);
+
+            fetch("/chatbot", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ message: msg })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const botMsg = document.createElement("div");
+                botMsg.className = "chatbot-bot";
+                botMsg.textContent = `EcoWaste AI: ${data.reply}`;
+                messages.appendChild(botMsg);
+                messages.scrollTop = messages.scrollHeight;
+            })
+            .catch(error => {
+                const errorMsg = document.createElement("div");
+                errorMsg.className = "chatbot-bot";
+                errorMsg.textContent = "EcoWaste AI: Sorry, something went wrong.";
+                messages.appendChild(errorMsg);
+                console.error("Chatbot error:", error);
+            });
+
+            input.value = "";
+        }
+
+        document.getElementById("user-input").addEventListener("keypress", function (e) {
+            if (e.key === "Enter") sendMessage();
+        });
+    </script>
+</body>
+</html>

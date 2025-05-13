@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Submit Feedback</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eef;
+            padding: 20px;
+        }
+        .form-container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        select, textarea, input[type="submit"] {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        input[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Submit Feedback</h2>
+        <form method="POST" action="{{ url_for('submit_feedback') }}">
+            <label for="rating">Rating:</label>
+            <select name="rating" required>
+                <option value="" disabled selected>Select rating</option>
+                <option value="1">1 - Very Poor</option>
+                <option value="2">2 - Poor</option>
+                <option value="3">3 - Fair</option>
+                <option value="4">4 - Good</option>
+                <option value="5">5 - Excellent</option>
+            </select>
+
+            <label for="message">Comments:</label>
+            <textarea name="message" placeholder="Write your feedback here..." required></textarea>
+
+            <input type="submit" value="Submit Feedback">
+        </form>
+    </div>
+</body>
+</html>

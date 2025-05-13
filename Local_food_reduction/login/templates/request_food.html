@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Food</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f8fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 25px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        input[type="text"], textarea {
+            width: 90%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            margin-top: 20px;
+            padding: 10px 30px;
+            font-size: 16px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        .flash-success {
+            color: green;
+            font-weight: bold;
+        }
+
+        .flash-error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Request Food</h2>
+
+        <!-- Display Food Image -->
+        <img src="{{ url_for('static', filename='images/food_list.jpg') }}" alt="Available Food" width="200"><br><br>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <p class="flash-{{ category }}">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% if food %}
+            <!-- Show selected food item details -->
+            <p><strong>Food:</strong> {{ food[1] }}</p>
+            <p><strong>Quantity:</strong> {{ food[2] }}</p>
+            <p><strong>Location:</strong> {{ food[3] }}</p>
+            <p><strong>Status:</strong> {{ food[4] }}</p>
+
+            <!-- Request Form -->
+            <form action="{{ url_for('request_food', food_id=food[0]) }}" method="post">
+                <input type="hidden" name="food_name" value="{{ food[1] }}">
+
+                <label for="user_id">Your User ID:</label><br>
+                <input type="text" name="user_id" required><br>
+
+                <label for="request_details">Request Details:</label><br>
+                <textarea name="request_details" rows="4" required></textarea><br>
+
+                <input type="submit" value="Submit Request">
+            </form>
+        {% else %}
+            <p class="flash-error">No food item selected or item not found.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

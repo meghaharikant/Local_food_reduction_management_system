@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ food.food_name }} - Food Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f9fb;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        .food-detail p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .food-detail strong {
+            color: #444;
+        }
+
+        .request-form {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .request-form button {
+            padding: 10px 25px;
+            font-size: 16px;
+            background-color: #28a745;
+            border: none;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .request-form button:hover {
+            background-color: #218838;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+            text-decoration: none;
+            font-size: 16px;
+            color: #007bff;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Food Details</h2>
+
+        <div class="food-detail">
+            <p><strong>Name:</strong> {{ food.food_name }}</p>
+            <p><strong>Quantity:</strong> {{ food.quantity }}</p>
+            <p><strong>Expiry Date:</strong> {{ food.expiry_date }}</p>
+            <p><strong>Location:</strong> {{ food.location }}</p>
+            <p><strong>Status:</strong> {{ food.status }}</p>
+        </div>
+
+        <div class="request-form">
+            <form method="POST" action="{{ url_for('add_food_request_from_detail', food_id=food.id) }}">
+                <input type="hidden" name="request_details" value="Requesting food: {{ food.food_name }}">
+                <input type="hidden" name="status" value="Pending">
+                <button type="submit">Request This Food</button>
+            </form>
+        </div>
+
+        <a href="{{ url_for('food_list') }}" class="back-link">← Back to Food List</a>
+    </div>
+</body>
+</html>

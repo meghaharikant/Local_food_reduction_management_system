@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fffde7; /* Light yellow background */
+            padding: 20px;
+            margin: 0;
+            color: white !important; /* Set all text to white */
+        }
+        .container {
+            max-width: 900px;
+            margin: 80px auto 40px auto; /* Added top margin to avoid overlap with navbar */
+            background: white;
+            padding: 20px 30px 40px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            color: white !important; /* Set all text to white */
+        }
+        h1 {
+            text-align: center;
+            color: #fbc02d; /* Bright yellow */
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px #b8860b;
+        }
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #fff9c4;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+        .user-details {
+            font-size: 18px;
+            color: white !important;
+        }
+        .user-details span {
+            font-weight: bold;
+            margin-right: 10px;
+            color: white !important;
+        }
+        .edit-profile-btn {
+            background-color: #fbc02d;
+            color: #4e342e;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .edit-profile-btn:hover {
+            background-color: #f9a825;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #fff9c4;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .tab {
+            padding: 12px 25px;
+            cursor: pointer;
+            color: #fbc02d;
+            font-weight: 600;
+            border-bottom: 3px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+        .tab.active {
+            border-color: #f9a825;
+            color: #f57f17;
+        }
+        .tab-content {
+            display: none;
+            color: white !important;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .stat-card {
+            background: #fff9c4;
+            color: white !important;
+            padding: 20px;
+            border-radius: 10px;
+            width: 28%;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .stat-card i {
+            font-size: 36px;
+            margin-bottom: 10px;
+            color: white !important;
+        }
+        .stat-card h3 {
+            margin: 10px 0 5px 0;
+            color: white !important;
+        }
+        .stat-card p {
+            font-size: 24px;
+            font-weight: bold;
+            color: white !important;
+        }
+        .activity-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #fff9c4;
+            border-radius: 8px;
+            padding: 15px;
+            background: #fffde7;
+            color: white !important;
+        }
+        .activity-item {
+            border-bottom: 1px solid #fff9c4;
+            padding: 10px 0;
+            font-size: 16px;
+            color: white !important;
+        }
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        .account-management {
+            margin-top: 30px;
+            padding: 20px;
+            background: #fffde7;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            color: white !important;
+        }
+        .account-management h2 {
+            color: white !important;
+            margin-bottom: 15px;
+        }
+        .account-management a {
+            display: inline-block;
+            background-color: #fbc02d;
+            color: #4e342e;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .account-management a:hover {
+            background-color: #f9a825;
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .stat-card {
+                width: 45%;
+            }
+            .user-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .tabs {
+                justify-content: center;
+            }
+        }
+        @media (max-width: 480px) {
+            .stat-card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="container">
+        <h1>User Profile</h1>
+        <div class="user-info">
+            <div class="user-details">
+                <span><i class="fa fa-user"></i> Name:</span> {{ session.get('username') }}
+            </div>
+            <div class="user-details">
+                <span><i class="fa fa-envelope"></i> Email:</span> {{ user_email or 'N/A' }}
+            </div>
+            <div class="user-details">
+                <span><i class="fa fa-id-badge"></i> Role:</span> {{ session.get('role')|capitalize }}
+            </div>
+            <button class="edit-profile-btn" onclick="alert('Edit Profile feature coming soon!')">Edit Profile</button>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" onclick="openTab(event, 'stats')">Statistics</div>
+            <div class="tab" onclick="openTab(event, 'activity')">Recent Activity</div>
+            <div class="tab" onclick="openTab(event, 'account')">Account Management</div>
+        </div>
+
+        <div id="stats" class="tab-content active">
+            <div class="stats">
+                <div class="stat-card">
+                    <i class="fa fa-leaf"></i>
+                    <h3>Total Donations</h3>
+                    <p>{{ total_donations }}</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fa fa-clock"></i>
+                    <h3>Pending Requests</h3>
+                    <p>{{ pending_requests }}</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fa fa-list"></i>
+                    <h3>Total Requests</h3>
+                    <p>{{ total_requests }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="activity" class="tab-content">
+            <div class="activity-list">
+                {% if recent_activity %}
+                    {% for activity in recent_activity %}
+                        <div class="activity-item">
+                            <strong>{{ activity.type }}:</strong> {{ activity.details }} <br>
+                            <small>{{ activity.date }}</small>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No recent activity found.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div id="account" class="tab-content">
+            <div class="account-management">
+                <h2>Account Management</h2>
+                <a href="{{ url_for('change_password') }}">Change Password</a>
+                <br><br>
+                <a href="{{ url_for('forgot_password') }}">Forgot Password</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+                tabcontent[i].classList.remove("active");
+            }
+            tablinks = document.getElementsByClassName("tab");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            document.getElementById(tabName).style.display = "block";
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+        // Initialize first tab
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementsByClassName("tab")[0].click();
+        });
+    </script>
+</body>
+</html>

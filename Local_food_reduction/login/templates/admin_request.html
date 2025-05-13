@@ -1,0 +1,28 @@
+<h2>Food Requests - Admin Panel</h2>
+<table>
+  <thead>
+    <tr>
+      <th>User ID</th>
+      <th>Details</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for req in requests %}
+    <tr>
+      <td>{{ req.user_id }}</td>
+      <td>{{ req.request_details }}</td>
+      <td>{{ req.status }}</td>
+      <td>
+        {% if req.status == 'Pending' %}
+        <a href="{{ url_for('approve_request', req_id=req.id) }}" class="btn btn-success">Approve</a>
+        <a href="{{ url_for('reject_request', req_id=req.id) }}" class="btn btn-danger">Reject</a>
+        {% else %}
+        {{ req.status }}
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
