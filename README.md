@@ -8,7 +8,7 @@ The **Local Food Reduction System** is a community-focused web platform designed
 
 We’ve also built a chatbot to assist users with queries about the system.
 
----
+
 
 ## 🛠️ Tech Stack
 - **Frontend**: HTML, CSS, JavaScript
@@ -18,14 +18,13 @@ We’ve also built a chatbot to assist users with queries about the system.
 - **Extras**: Our chatbot is designed to assist users with **common queries** related to the food donation process.
 AI-powered chatbot for food help queries
 
----
+
 
 ## 🔐 System Features
 
 ### 👤 User Functionality:
 - Register/Login
 - Request food
-- Track request status
 
 ### 👨‍🍳 Donor Functionality:
 - Add & donate food with expiry, quantity & location
@@ -40,7 +39,7 @@ AI-powered chatbot for food help queries
 
 Our chatbot is designed to assist users with **common queries** related to the food donation process.
 
----
+
 #### 📌 Built Using:
 - Python Flask
 - Predefined question-answer logic (rule-based)
